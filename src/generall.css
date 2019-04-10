@@ -1,4 +1,6 @@
 /* ============== Generall ============== */
 body{
+  margin: 0;
+  font-family: "Helvetica", "Verdana", "Roboto", sans-serif;
   background-color: lightgrey;
 }

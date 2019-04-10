@@ -9,11 +9,14 @@ import { css } from 'glamor';
 /* ========================= Generall ========================= */
 export const mainWindowCSS = {
   bodyFrame: css({
+    'position': 'relative',
     'marginLeft': 'calc(50% - 175px)',
     'marginTop': '10%',
-    'backgroundColor': 'white',
-    'borderRadius': '30px',
-    'border': '1px solid red',
+    'width': '450px',
+    'height': '450px',
+    'backgroundColor': 'darkblue',
+    'borderRadius': '10px',
+    'border': '1px solid lightgrey',
     'width': '350px',
   }),
 }
@@ -29,8 +32,11 @@ export const mainWindowCSS = {
 /* ========================= Gamecell ========================= */
 export const gameCellCSS = {
   cell: css({
-    'width': '10px',
+    'margin': '30px',
+    'width': '30px',
+    'height': '30px',
     'borderRadius': '20px', 
     'backgroundColor': 'white',
+    
   }),
 }
