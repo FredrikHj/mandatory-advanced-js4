@@ -1,9 +1,23 @@
 import React, { PureComponent } from 'react';
 import { mainWindowCSS, gameCellCSS } from './fourInARowCSS';
+let countCol = 0;
+let arrColummContent = [];
+let gameGrids = [];
+let countRow = 0;
 
-function GameCell() {
+ function GameColummStructure(props) {
+  console.log(props);
   return(
-    <div className={ gameCellCSS.cell }></div>
+    <div key={ props.colKey }>
+      { props.colContent }
+    </div>
+  );
+
+} 
+function GameCell(props) {
+  console.log(props);
+  return(
+    <div className={ gameCellCSS.cell } key={ props.cell }></div>
   );
 
 }
@@ -22,31 +36,33 @@ class FourInARow extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.gameBoard = this.gameBoard.bind(this);
+    this.createRow = this.createRow.bind(this);
   }
-  gameBoard() {
-    let ArrCollum1 = [];
-    let totCollum = 7;
-    let totRow = 6;
-    let newCollum = 0;
-    let newArrNr = 0;
-    for (let i = 0; i <= totCollum*totRow; i++) {
-      i += 6;
-      ArrCollum1.push(<GameCell/>);
-      console.log(newCollum);
-      
-      
+  createRow() {
+    countCol += 1;
+    for (let row = 1; row <= 6; row++) {
+      countRow += 1;      
+      arrColummContent.push(
+        <GameCell
+          key={ countCol + 'x' +countRow }
+
+        />
+      );
     }
-    
-    //return ArrCollum1, newArr;
+    return <GameColummStructure
+      colKey={ 'col'+ countCol }
+      colContent={ arrColummContent }
+    />
+
+    return arrColummContent;
   }
   render() {
-    let gameColumm = [GameCell, GameCell]
+    gameGrids.push(this.createRow());
+    console.log(arrColummContent);
+    
     return (
       <div className={ mainWindowCSS.bodyFrame }>
-        { this.gameBoard() }
-        
-        
+        { gameGrids }
       </div>
     );
   }
