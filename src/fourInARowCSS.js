@@ -93,4 +93,5 @@ export const inGameCSS = {
     'left': '99px',
     'top': '-348',
   }),
+  // Col poss, left to right: col1 = |
 }
