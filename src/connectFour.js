@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { mainWindowCSS, inGameCSS, gameStartedCSS } from './connectFourCSS';
+import { mainWindowCSS, inGameCSS } from './connectFourCSS';
 //import { rowInCol$, updateRowInCol } from './store';
 import { css } from 'glamor';
 
@@ -9,21 +9,20 @@ let test = 0;
   constructor(props) {
     super(props);
     this.state = {
-     // row: 1,
       totRow: 6,
       rowContent: '',
-     // col: 1,
       totCol: 7,
       gameGrid: '',
     }
     this.createGameGrid = this.createGameGrid.bind(this);
+    this.createDisc = this.createDisc.bind(this);
   }
   componentDidMount() {
     this.createGameGrid();
   }
   createGameGrid() {
     //debugger;
-    let colformat, colLineName;
+    let colformat, colLineName, disc1;
     let totRow = this.state.totRow;
     let totCol = this.state.totCol;
     let arrColContent = [];
@@ -52,14 +51,20 @@ let test = 0;
             colLineNr += 49 + 'px';
             colLineCSS += 1;
 
+            
             colLineName = colformat + colLineCSS;
-            colformat = {
+            colLineName = {
               colLineName: css({
+                'width': '17.5px',
+                'height': '17.5px',
+                'borderRadius': '20px', 
+                'backgroundColor': 'red',
+                'zIndex': '1',
                 'marginLeft': colLineNr,
               }),
             };
-            
-            gameStartedCSS['colLine' + colLineCSS] = colformat;
+            //arrCol.push(disc1);
+            console.log(colLineName.colLineName);
           }
         // ========================================================================  
         }
@@ -69,11 +74,11 @@ let test = 0;
     arrGameGrid.push(arrCol); 
     this.setState({ gameGrid: arrGameGrid});
   }
+  createDisc() {
+    <div className={ inGameCSS.player1Disc } id="disc1"></div>
+    <div className={ inGameCSS.player2Disc } id="disc2"></div>
+  }
   render() {
-    console.log(mainWindowCSS.topLine);
-    console.log(gameStartedCSS);
-    
-    console.log(this.state.gameGrid);
     return (
       <section className={ mainWindowCSS.bodyFrame }>
       <p className={  mainWindowCSS.pagesHeadLine }> Connect four</p>
@@ -85,12 +90,13 @@ let test = 0;
           <p>Player 2</p>
         </section>
         <div className={ mainWindowCSS.gameGrid }>
+        <section>
+          { this.createDisc() }
+        </section>
           { this.state.gameGrid }
         </div>
         <button className={ mainWindowCSS.rstBtn }>Reset Game</button>
       </section>
-        <div className={ inGameCSS.player1Disc }></div>
-        <div className={ inGameCSS.player2Disc }></div>
     </section>
     );
   }

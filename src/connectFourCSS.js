@@ -82,6 +82,9 @@ export const inGameCSS = {
     'borderRadius': '20px', 
     'backgroundColor': 'red',
     'zIndex': '1',
+    'position': 'relative',
+    'left': '33.5px',
+    'top': '-19px',
   }),
   player2Disc: css({
     'width': '17.5px',
@@ -90,10 +93,12 @@ export const inGameCSS = {
     'backgroundColor': 'green',
     'zIndex': '1',
     'position': 'relative',
-    'left': '99px',
-    'top': '-348',
+    'left': '33.5px',
+    'top': '-36.5px',
   }),
   // Col poss, left to right: col1 = |
 }
-// Expandin CSS rouls for gameCol
+// Expanding CSS rouls for gameCol1 -->
 export let gameStartedCSS = {}
+
+console.log(gameStartedCSS.colLine1);
