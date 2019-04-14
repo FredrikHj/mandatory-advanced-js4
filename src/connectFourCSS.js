@@ -95,3 +95,5 @@ export const inGameCSS = {
   }),
   // Col poss, left to right: col1 = |
 }
+// Expandin CSS rouls for gameCol
+export let gameStartedCSS = {}
