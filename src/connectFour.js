@@ -2,7 +2,13 @@ import React, { PureComponent } from 'react';
 import { mainWindowCSS, inGameCSS } from './connectFourCSS';
 //import { rowInCol$, updateRowInCol } from './store';
 import { css } from 'glamor';
+let discKey = 0;
 
+let arrColContent = [];
+let arrGameGrid = [];
+let colLineNr = 99;
+let arrDisc = [];
+let arrCol = [];
 let test = 0;
 
  class Connect4 extends PureComponent {
@@ -12,8 +18,12 @@ let test = 0;
       totRow: 6,
       rowContent: '',
       totCol: 7,
-      gameGrid: '',
+      gameGrid: [],
+      currentPlayer: { value: 'player1', css: {} },
+      notClickingOutsideCells: [],
+      leftMarginDiscColValue: '',
     }
+    //this.getNotClickingOutside = this.getNotClickingOutside;
     this.createGameGrid = this.createGameGrid.bind(this);
     this.createDisc = this.createDisc.bind(this);
   }
@@ -22,63 +32,82 @@ let test = 0;
   }
   createGameGrid() {
     //debugger;
-    let colformat, colLineName, disc1;
+
     let totRow = this.state.totRow;
     let totCol = this.state.totCol;
-    let arrColContent = [];
-    let arrGameGrid = [];
-    let colLineCSS = 0;
     let rowInCol = 1;
-    let colLineNr = 99;
-    let arrCol = [];
     let colNr = 0;
-    /* Creating a col and give it name col1/2/3...............
+    let leftMarginDiscColValue = 99;
+    /* Creating a col and give the names col1/2/3...............
     I am creating a couple of rows with the nr of row I need for the game, Inside the cols*/
     for (let countCol = 1; countCol <= totCol; countCol++) {   
+      // createRow();
       for (let countRow = 1; countRow <= totRow; countRow++) {
-      // Creating one cell in each turn and give it a rowNr, row is rowNr in the col
-
-        let row = <div className={ inGameCSS.cell } key={ countRow } id={ rowInCol + 'x' + countRow }>{  }</div>;
+        
+        /* Creating one cell in each turn and give it a rowNr, row is rowNr in the col. 
+        Handle click in the gameGrid is onlu allowed into the cell */   
+        let row = <div className={ inGameCSS.cell } key={ countRow } id={ rowInCol + 'x' + countRow }
+        data-marginleft-value={ leftMarginDiscColValue } onClick={ this.createDisc }></div>;
         arrColContent.push(row);
-
         // Add the rows in a arrCol after the couple of rows needed for a single col
-          if (countRow === 6) {
-            colNr += 1;
-            let gameCol = <div key={ colNr } id={ 'col' + colNr }>{ arrColContent }</div>;
-            arrCol.push(gameCol);
-            
-            // Creating some CSS for eatch col 
-            colLineNr += 49 + 'px';
-            colLineCSS += 1;
+        if (countRow === totRow) {
+          colNr += 1;
 
-            
-            colLineName = colformat + colLineCSS;
-            colLineName = {
-              colLineName: css({
-                'width': '17.5px',
-                'height': '17.5px',
-                'borderRadius': '20px', 
-                'backgroundColor': 'red',
-                'zIndex': '1',
-                'marginLeft': colLineNr,
-              }),
-            };
-            //arrCol.push(disc1);
-            console.log(colLineName.colLineName);
-          }
-        // ========================================================================  
+          // Hook a marginLeft value for a col
+          leftMarginDiscColValue += 49;
+
+          let gameCol = <div key={ colNr } id={  rowInCol + 'x' + 0 } value={ leftMarginDiscColValue }>{ arrColContent.reverse() }</div>;
+          arrCol.push(gameCol);
+
+          // Creating the disc sections as a div for each col which is the place for the disc for one col. 
+          arrDisc.push(<div className={ mainWindowCSS.discCell } key={ colNr }>efw</div>);
+          
+          
+          //arrCol.push(disc1);
         }
+        // ========================================================================  
+      }
       arrColContent = [];
       rowInCol += 1;
-    }     
-    arrGameGrid.push(arrCol); 
-    this.setState({ gameGrid: arrGameGrid});
-  }
-  createDisc() {
-    <div className={ inGameCSS.player1Disc } id="disc1"></div>
-    <div className={ inGameCSS.player2Disc } id="disc2"></div>
+    }
+    
+    arrGameGrid.push(arrCol);
+    
+    this.setState({ 
+      gameGrid: arrGameGrid, currentPlayer: { ...this.state.currentPlayer, discToPlace: arrDisc } });
+    }
+    createDisc(e) {
+      let getTargetId = e.target.id;
+      let getLMarginLeftColValue = e.target.dataset.marginleftValue;
+      console.log(getLMarginLeftColValue);
+
+     let colLineName;
+      discKey += 1;
+      
+    // Creating some CSS for eatch col disc
+    let strPx = getLMarginLeftColValue.toString() + 'px';
+
+    colLineName = {
+      player1: css({
+        'marginLeft': strPx,
+        'backgroundColor': 'green',
+      }),
+      player2: css({
+        'marginLeft': strPx,
+        'backgroundColor': 'red',
+      }),
+    };
+      // Creating the disc
+      let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } style={(this.state.currentPlayer.value === 'player1') 
+      ? {backgroundColor: 'green'} : {backgroundColor: 'red'} }></div>
+       arrDisc.push(getDisc);
+     this.setState({ currentPlayer: { ...this.state.currentPlayer, discToPlace: arrDisc } });
+      
+      console.log(arrColContent);
   }
   render() {
+    console.log(this.state.currentPlayer.discToPlace);
+    
     return (
       <section className={ mainWindowCSS.bodyFrame }>
       <p className={  mainWindowCSS.pagesHeadLine }> Connect four</p>
@@ -89,10 +118,8 @@ let test = 0;
           <p>Player 1</p>
           <p>Player 2</p>
         </section>
+          <section className={ mainWindowCSS.gameDiscPlace }>{ this.state.currentPlayer.discToPlace }</section>
         <div className={ mainWindowCSS.gameGrid }>
-        <section>
-          { this.createDisc() }
-        </section>
           { this.state.gameGrid }
         </div>
         <button className={ mainWindowCSS.rstBtn }>Reset Game</button>

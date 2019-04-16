@@ -42,18 +42,37 @@ export const mainWindowCSS = {
   gameGridFrame: css({
     'position': 'relative',
     'top': '-64px',
-
   }),
+  // identical CSS
+/*   inPlace: css({
+
+
+  }), */
+  gameDiscPlace: css({
+    'position': 'relative',
+    'left': 'calc(57% - 175px)',
+    'display': 'flex',
+    'flexDirection': 'row',
+    'justifyContent': 'spaceAround',
+    'width': '350px',
+    'border': '1px solid lightgrey',
+  }),
+  discCell: css({
+    'margin': '15px',
+    'width': '20px',
+  }),
+
   gameGrid: css({
     'position': 'relative',
     'left': 'calc(57% - 175px)',
     'display': 'flex',
     'flexDirection': 'row',
     'justifyContent': 'spaceAround',
+    'width': '350px',
+    
+    'border': '1px solid lightgrey',
     'backgroundColor': 'darkblue',
     'borderRadius': '10px',
-    'border': '1px solid lightgrey',
-    'width': '350px',
   }),
   rstBtn: css({
     'position': 'relative',
@@ -76,25 +95,14 @@ export const inGameCSS = {
     'borderRadius': '20px', 
     'backgroundColor': 'white',
   }),
-  player1Disc: css({
+  generallPlayerDisc: css({
+    'position': 'relative',
     'width': '17.5px',
     'height': '17.5px',
     'borderRadius': '20px', 
-    'backgroundColor': 'red',
     'zIndex': '1',
-    'position': 'relative',
-    'left': '33.5px',
     'top': '-19px',
-  }),
-  player2Disc: css({
-    'width': '17.5px',
-    'height': '17.5px',
-    'borderRadius': '20px', 
-    'backgroundColor': 'green',
-    'zIndex': '1',
-    'position': 'relative',
-    'left': '33.5px',
-    'top': '-36.5px',
+    'marginBottom': '-18px',
   }),
   // Col poss, left to right: col1 = |
 }
