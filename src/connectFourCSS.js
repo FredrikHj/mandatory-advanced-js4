@@ -1,4 +1,5 @@
 import { css } from 'glamor';
+import { relative } from 'path';
 
 /* let indenticalCSS = {
   containerRegLogin:  css({
@@ -41,7 +42,7 @@ export const mainWindowCSS = {
   }),
   gameGridFrame: css({
     'position': 'relative',
-    'top': '-64px',
+    'top': '-80px',
   }),
   // identical CSS
 /*   inPlace: css({
@@ -51,15 +52,21 @@ export const mainWindowCSS = {
   gameDiscPlace: css({
     'position': 'relative',
     'left': 'calc(57% - 175px)',
+    'top': '0',
     'display': 'flex',
     'flexDirection': 'row',
     'justifyContent': 'spaceAround',
     'width': '350px',
+    'height': '20px',
     'border': '1px solid lightgrey',
   }),
   discCell: css({
-    'margin': '15px',
+    'position': 'relative',
+    'top': '-20px',
+    'left': '15px',
     'width': '20px',
+    'height': '103%',
+    'zIndex': '1',
   }),
 
   gameGrid: css({
@@ -69,7 +76,6 @@ export const mainWindowCSS = {
     'flexDirection': 'row',
     'justifyContent': 'spaceAround',
     'width': '350px',
-    
     'border': '1px solid lightgrey',
     'backgroundColor': 'darkblue',
     'borderRadius': '10px',
@@ -89,6 +95,8 @@ export const mainWindowCSS = {
 /* ========================= Gamecell ========================= */
 export const inGameCSS = {
   cell: css({
+    'position': 'relative',
+    'top': '-245px',
     'margin': '15px',
     'width': '20px',
     'height': '20px',
@@ -103,10 +111,9 @@ export const inGameCSS = {
     'zIndex': '1',
     'top': '-19px',
     'marginBottom': '-18px',
+    'backgroundColor': 'green',
   }),
   // Col poss, left to right: col1 = |
 }
 // Expanding CSS rouls for gameCol1 -->
 export let gameStartedCSS = {}
-
-console.log(gameStartedCSS.colLine1);
