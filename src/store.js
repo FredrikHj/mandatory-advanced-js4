@@ -1,9 +1,18 @@
 import {BehaviorSubject} from "rxjs";
-let rowInCol = 0;
-let countRow = '';
-export const rowInCol$ = new BehaviorSubject(rowInCol);
+let x = 0;
+let y = 0;
+export const rowNr$ = new BehaviorSubject(x);
+export const colNr$ = new BehaviorSubject(y);
+export const colDiscHandlerState$ = new BehaviorSubject(colDiscHandlerState);
 
-export function updateRowInCol(rowInCol){
-    console.log(rowInCol);
-    if(rowInCol) rowInCol$.next(rowInCol);
+export function updateGameGridStructure(x, y){
+    console.log(x + ' & ' + y);
+    //if(x) rowNr$.next(x);
+    rowNr$.next(x);
+    colNr$.next(y);
+}
+
+export function colDiscHandlerState(colDiscHandlerState) {
+    console.log(colDiscHandlerState);
+    colDiscHandlerState$.next(colDiscHandlerState);
 }

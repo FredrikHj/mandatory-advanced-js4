@@ -61,14 +61,20 @@ export const mainWindowCSS = {
     'border': '1px solid lightgrey',
   }),
   discCell: css({
-    'position': 'relative',
-    'top': '-20px',
-    'left': '15px',
+    //'position': 'relative',
+    'marginTop': '-20px',
+    'marginLeft': '15px',
     'width': '20px',
-    'height': '103%',
+   // 'height': '103%',
     'zIndex': '1',
+    'border': '1px solid red',
   }),
+  test: css({
+    'display': 'flex',
+    'flexDirection': 'row',
+    'justifyContent': 'spaceAround',
 
+  }),
   gameGrid: css({
     'position': 'relative',
     'left': 'calc(57% - 175px)',
@@ -96,7 +102,7 @@ export const mainWindowCSS = {
 export const inGameCSS = {
   cell: css({
     'position': 'relative',
-    'top': '-245px',
+    //'top': '-245px',
     'margin': '15px',
     'width': '20px',
     'height': '20px',
