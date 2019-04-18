@@ -40,10 +40,7 @@ export const mainWindowCSS = {
     'width': '450px',
     'height': '396px',
   }),
-  gameGridFrame: css({
-    'position': 'relative',
-    'top': '-80px',
-  }),
+
   // identical CSS
 /*   inPlace: css({
 
@@ -51,8 +48,8 @@ export const mainWindowCSS = {
   }), */
   gameDiscPlace: css({
     'position': 'relative',
+    'top': '-40',
     'left': 'calc(57% - 175px)',
-    'top': '0',
     'display': 'flex',
     'flexDirection': 'row',
     'justifyContent': 'spaceAround',
@@ -60,32 +57,7 @@ export const mainWindowCSS = {
     'height': '20px',
     'border': '1px solid lightgrey',
   }),
-  discCell: css({
-    //'position': 'relative',
-    'marginTop': '-20px',
-    'marginLeft': '15px',
-    'width': '20px',
-   // 'height': '103%',
-    'zIndex': '1',
-    'border': '1px solid red',
-  }),
-  test: css({
-    'display': 'flex',
-    'flexDirection': 'row',
-    'justifyContent': 'spaceAround',
 
-  }),
-  gameGrid: css({
-    'position': 'relative',
-    'left': 'calc(57% - 175px)',
-    'display': 'flex',
-    'flexDirection': 'row',
-    'justifyContent': 'spaceAround',
-    'width': '350px',
-    'border': '1px solid lightgrey',
-    'backgroundColor': 'darkblue',
-    'borderRadius': '10px',
-  }),
   rstBtn: css({
     'position': 'relative',
     'left': 'calc(50% - 50px)',
@@ -98,17 +70,39 @@ export const mainWindowCSS = {
 /* export const headerCSS = {  
 
 } */
-/* ========================= Gamecell ========================= */
-export const inGameCSS = {
+/* ========================= GameGrid ========================= */
+export const gameGridCSS = {
+  gameGridFrame: css({
+    'marginTop': '-60px',
+  }),
+  gameGrid: css({
+    'position': 'relative',
+    'left': 'calc(57% - 175px)',
+    'display': 'flex',
+    'flexDirection': 'row',
+    'justifyContent': 'spaceAround',
+    'width': '350px',
+    'border': '1px solid lightgrey',
+    'backgroundColor': 'darkblue',
+    'borderRadius': '10px',
+  }),
+  discCell: css({
+    'marginLeft': '15px',
+    'width': '20px',
+    'zIndex': '1',
+  }),
   cell: css({
     'position': 'relative',
-    //'top': '-245px',
     'margin': '15px',
     'width': '20px',
     'height': '20px',
     'borderRadius': '20px', 
     'backgroundColor': 'white',
   }),
+}
+/* ========================= Gamecell ========================= */
+export const inGameCSS = {
+
   generallPlayerDisc: css({
     'position': 'relative',
     'width': '17.5px',
