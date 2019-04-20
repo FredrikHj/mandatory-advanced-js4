@@ -9,8 +9,14 @@ import { create } from 'domain';
 let discKey = 100;
 let arrDisc = [];
 
-
-
+// Arrays for my col is created
+let col1 = [];
+let col2 = [];
+let col3 = [];
+let col4 = [];
+let col5 = [];
+let col6 = [];
+let col7 = [];
 
 class GameGrid extends PureComponent {
   constructor(props) {
@@ -120,13 +126,14 @@ class GameGrid extends PureComponent {
   }
   createDisc(e) {
     console.log(e);
+    
     discKey += 1;
     // Clean the id to only show the col nr
     let getTargetCol = e.target.id;
     let indexedLetter = getTargetCol.split('');
     let getColNr = indexedLetter.shift();
     console.log(getColNr);
-
+    
     let currentPlayer = this.state.currentPlayer.value;
 
     // Handle the current player
@@ -158,25 +165,15 @@ class GameGrid extends PureComponent {
     let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getTargetCol.id } 
     style={(this.state.currentPlayer.value === 'player1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
     </div>;
-
-    let col1 = [];
-    let col2 = [];
-    let col3 = [];
-    let col4 = [];
-    let col5 = [];
-    let col6 = [];
-    let col7 = [];
+      
+   eval('col' + getColNr).push(getDisc);
     
-    console.log(getDisc);
-    
-    [colName].push(getDisc);
-
     //getTargetCol.textContent = 'vdz';
-
+ 
     this.setState({
-       colDiscHandler: {...this.state.colDiscHandler, [colName]: colName}
+       colDiscHandler: {...this.state.colDiscHandler, [colName]: eval('col' + getColNr) }
     });
-
+    getColNr = 0;
       //arrDisc = [];
   }
   render() {
