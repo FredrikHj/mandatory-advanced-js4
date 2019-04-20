@@ -93,7 +93,7 @@ export const gameGridCSS = {
   }),
   cell: css({
     'position': 'relative',
-    'margin': '15px',
+    'margin': '14.3px',
     'width': '20px',
     'height': '20px',
     'borderRadius': '20px', 
@@ -102,18 +102,11 @@ export const gameGridCSS = {
 }
 /* ========================= Gamecell ========================= */
 export const inGameCSS = {
-
   generallPlayerDisc: css({
-    'position': 'relative',
     'width': '17.5px',
     'height': '17.5px',
-    'borderRadius': '20px', 
+    'marginBottom': '-51.4px',
+    'borderRadius': '20px',
     'zIndex': '1',
-    'top': '-19px',
-    'marginBottom': '-18px',
-    'backgroundColor': 'green',
   }),
-  // Col poss, left to right: col1 = |
 }
-// Expanding CSS rouls for gameCol1 -->
-export let gameStartedCSS = {}
