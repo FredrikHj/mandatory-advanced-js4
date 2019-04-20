@@ -1,9 +1,8 @@
 import React, { PureComponent, useState, useEffect } from 'react';
-import { CSSTransition//, TransitionGroup 
-} from 'react-transition-group';
-import { mainWindowCSS, inGameCSS, gameGridCSS } from './connectFourCSS';
-import { rowNr$, colNr$, colDiscHandlerState$, updateGameGridStructure, colDiscHandlerState } from './store';
 
+import { mainWindowCSS, inGameCSS, gameGridCSS } from './connectFourCSS';
+import { rowNr$, colNr$, colDiscHandlerState$ } from './store';
+import { GameGrid } from './gameGrid';
 import { css } from 'glamor';
 import { create } from 'domain';
 let discKey = 100;
@@ -18,163 +17,123 @@ let col5 = [];
 let col6 = [];
 let col7 = [];
 
-class GameGrid extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  }
-  render() {
-    console.log(this.state.colDiscHandler);
-    return(
-      <>
-        {/* =============================== Col 1 =============================== */}
-        <div> 
-          <div key="1">
-            <div className={ gameGridCSS.cell } key="6" id="1x6" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="5" id="1x5" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="4" id="1x4" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="3" id="1x3" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="2" id="1x2" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="1" id="1x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col1 }</div>
-          </div>
-        </div>
-        {/* =============================== Col 2 =============================== */}
-        <div>
-          <div key="2">
-            <div className={ gameGridCSS.cell } key="6" id="2x6" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="5" id="2x5" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="4" id="2x4" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="3" id="2x3" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="2" id="2x2" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="1" id="2x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col2 }</div>
-          </div>
-        </div>  
-        {/* =============================== Col 3 =============================== */}
-        <div>
-          <div key="3">
-            <div className={ gameGridCSS.cell } key="6" id="3x6" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="5" id="3x5" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="4" id="3x4" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="3" id="3x3" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="2" id="3x2" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="1" id="3x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col3 }</div>
-          </div>
-        </div>
-        {/* =============================== Col 4 =============================== */}
-        <div> 
-          <div key="4">
-            <div className={ gameGridCSS.cell } key="6" id="4x6" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="5" id="4x5" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="4" id="4x4" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="3" id="4x3" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="2" id="4x2" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="1" id="4x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col4 }</div>
-          </div>
-        </div>
-        {/* =============================== Col 5 =============================== */}
-        <div> 
-          <div key="5">
-            <div className={ gameGridCSS.cell } key="6" id="5x6" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="5" id="5x5" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="4" id="5x4" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="3" id="5x3" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="2" id="5x2" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="1" id="5x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col5 }</div>
-          </div>
-        </div>
-        {/* =============================== Col 6 =============================== */}
-        <div> 
-          <div key="6">
-            <div className={ gameGridCSS.cell } key="6" id="6x6" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="5" id="6x5" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="4" id="6x4" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="3" id="6x3" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="2" id="6x2" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="1" id="6x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col6 }</div>
-          </div>
-        </div>
-        {/* =============================== Col 7 =============================== */}
-        <div> 
-          <div key="7">
-            <div className={ gameGridCSS.cell } key="6" id="7x6" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="5" id="7x5" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="4" id="7x4" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="3" id="7x3" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="2" id="7x2" onClick={ this.props.createDisc }></div>
-            <div className={ gameGridCSS.cell } key="1" id="7x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col7 }</div>
-          </div>
-        </div>
-      </>
-    );
-  }
-}
  class Connect4 extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      colDiscHandler: { col1: [], col2: [], col3: [], col4: [], col5: [], col6: [], col7: [] },
       currentPlayer: { value: 'player1', bC: 'green', css: {} },
     }
     this.createDisc = this.createDisc.bind(this);
+    this.checkCurrentPlayer = this.checkCurrentPlayer.bind(this);
   }
   componentDidMount() {
-    this.createGameGridStructure(6, 7);
-  }
-  createGameGridStructure(x, y) {
-    updateGameGridStructure(x, y);
+    this.subscription = colDiscHandlerState$.subscribe((colDiscHandler) => {
+      console.log(colDiscHandler);
+      
+      if (colDiscHandler) {
+        console.log('Lyssna och sätter antalet colummer via en store');
+        this.setState({ colDiscHandler: colDiscHandlerState$.value });
+      } 
+    });
   }
   createDisc(e) {
-    console.log(e);
+    let getTargetColRow = e.target.id;
+
+    console.log(getTargetColRow);
     
     discKey += 1;
-    // Clean the id to only show the col nr
-    let getTargetCol = e.target.id;
-    let indexedLetter = getTargetCol.split('');
+    // Clean the id to only show the col nr      
+    let indexedLetter = getTargetColRow.split('');
     let getColNr = indexedLetter.shift();
-    console.log(getColNr);
+    console.log(typeof getColNr);
     
-    let currentPlayer = this.state.currentPlayer.value;
-
+    
     // Handle the current player
+      console.log('bfd');
+  
+    // Create a col dynamic name nr according the col I click in
+    let colName = 'col' + getColNr;
+    
+    // Creating the disc 
+    let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getTargetColRow.id } 
+    style={(this.state.currentPlayer.value === 'player1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
+      </div>;
+    if (getColNr === '1') {
+      this.checkCurrentPlayer();
+      col1.push(getDisc);
+      this.setState({
+          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col1
+        }
+      });
+    }
+    if (getColNr === '2') {
+      this.checkCurrentPlayer();
+      col2.push(getDisc);
+      this.setState({
+          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col2
+        }
+      });
+    }
+    if (getColNr === '3') {
+      this.checkCurrentPlayer();
+      col3.push(getDisc);
+      this.setState({
+          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col3
+        }
+      });
+    }
+    if (getColNr === '4') {
+      this.checkCurrentPlayer();
+      col4.push(getDisc);
+      this.setState({
+          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col4
+        }
+      });
+    }
+    if (getColNr === '5') {
+      this.checkCurrentPlayer();
+      col5.push(getDisc);
+      this.setState({
+          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col5
+        }
+      });
+    }
+    if (getColNr === '6') {
+      this.checkCurrentPlayer();
+      col6.push(getDisc);
+      this.setState({
+          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col6
+        }
+      });
+    }
+    if (getColNr === '7') {
+      this.checkCurrentPlayer();
+      col7.push(getDisc);
+      this.setState({
+          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col7
+        }
+      });
+    }
+  }
+  checkCurrentPlayer() { 
+    let currentPlayer = this.state.currentPlayer.value;
     if (currentPlayer === 'player1') {
       this.setState({currentPlayer: {
-        ...this.state.currentPlayer,
-        value: 'player2'
+          ...this.state.currentPlayer,
+          value: 'player2'
         }
       })
     }
     if (currentPlayer === 'player2') {
-      this.setState({currentPlayer: {
-        ...this.state.currentPlayer,
-        value: 'player1'
+          this.setState({currentPlayer: {
+          ...this.state.currentPlayer,
+          value: 'player1'
         }
       })
     }
-
-    /* How much should the margin top be at the disk for the col?
-    Intial value is top: -19px and the max value is +191px, every row upp decrease the value with -35px
-    CSS based animation */
-      
-    // Create a col dynamic name according the col I click in
-    let colName = 'col' + getColNr;
+  }
+  checkWinner() {
     
-    // CSS style for the disc
-
-    // Creating the disc 
-    let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getTargetCol.id } 
-    style={(this.state.currentPlayer.value === 'player1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
-    </div>;
-      
-   eval('col' + getColNr).push(getDisc);
-    
-    //getTargetCol.textContent = 'vdz';
- 
-    this.setState({
-       colDiscHandler: {...this.state.colDiscHandler, [colName]: eval('col' + getColNr) }
-    });
-    getColNr = 0;
-      //arrDisc = [];
   }
   render() {
     console.log(this.state.colDiscHandler);
@@ -185,11 +144,12 @@ class GameGrid extends PureComponent {
       <p className={  mainWindowCSS.wonSubLine }> Player ? Won</p>
       <section className={ gameGridCSS.gameGridFrame }>
         <section className={  mainWindowCSS.playerContainer }>
-          <p>Player 1</p>
-          <p>Player 2</p>
-        </section>
+          <p style={(this.state.currentPlayer.value === 'player1') ? {color: 'green', fontWeight: 'bold'} : null}>Player 1</p>
+          <p style={(this.state.currentPlayer.value === 'player2') ? {color: 'red', fontWeight: 'bold'} : null}>Player 2</p>
+         </section>
           <div className={ gameGridCSS.gameGrid }>
-            <GameGrid createDisc={ this.createDisc } colDiscHandler={ this.state.colDiscHandler }/>      
+            <GameGrid createDisc={ this.createDisc } colDiscHandler={ this.state.colDiscHandler }/>     
+          <section className={ mainWindowCSS.gameDiscPlace }>{ this.state.colDiscHandler }</section>
           </div>
         <button className={ mainWindowCSS.rstBtn }>Reset Game</button>
       </section>
@@ -197,6 +157,5 @@ class GameGrid extends PureComponent {
     );
   }
 }
-//<section className={ mainWindowCSS.gameDiscPlace }></section>
 
 export default Connect4;

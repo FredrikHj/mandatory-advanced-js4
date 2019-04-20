@@ -105,7 +105,8 @@ export const inGameCSS = {
   generallPlayerDisc: css({
     'width': '17.5px',
     'height': '17.5px',
-    'marginBottom': '-51.4px',
+    'marginBottom': '-51.1px',
+    'marginLeft': '1px',
     'borderRadius': '20px',
     'zIndex': '1',
   }),

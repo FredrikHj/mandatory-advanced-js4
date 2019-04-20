@@ -100,8 +100,7 @@ let test = 0;
     
     arrGameGrid.push(arrCol);
     
-    this.setState({ gameGrid: arrGameGrid //, colDiscHandler: arrColDiscHandler 
-    });
+    this.setState({ gameGrid: arrGameGrid });
   }
     createDisc(e) {
       console.log(e);
