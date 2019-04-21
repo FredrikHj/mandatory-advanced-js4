@@ -48,11 +48,11 @@ let col7 = [];
     let indexedLetter = getTargetColRow.split('');
     let getColNr = indexedLetter.shift();
     console.log(typeof getColNr);
+
+    // Col array name
+    this['col' + getColNr] = [];
+    console.log(this['col' + getColNr]);
     
-    
-    // Handle the current player
-      console.log('bfd');
-  
     // Create a col dynamic name nr according the col I click in
     let colName = 'col' + getColNr;
     
@@ -60,12 +60,14 @@ let col7 = [];
     let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getTargetColRow.id } 
     style={(this.state.currentPlayer.value === 'player1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
       </div>;
+ 
     if (getColNr === getColNr) {
       this.checkCurrentPlayer();
-      arrDisc.push(getDisc);
+      this['col' + getColNr].push(getDisc);
 
       this.setState({
-          colDiscHandler: { ...this.state.colDiscHandler, [colName]: [arrDisc] }
+          colDiscHandler: { ...this.state.colDiscHandler, [colName]: '?'
+        }
       });
       //arrDisc = [];
     }
