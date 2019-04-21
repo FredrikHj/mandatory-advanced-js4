@@ -1,7 +1,7 @@
 import React, { PureComponent, useState, useEffect } from 'react';
 
 import { mainWindowCSS, inGameCSS, gameGridCSS } from './connectFourCSS';
-import { colDiscHandler$ } from './store';
+import { colDiscHandler$, totCol$ } from './store';
 import { GameGrid } from './gameGrid';
 import { css } from 'glamor';
 import { create } from 'domain';
@@ -37,6 +37,14 @@ let col7 = [];
         this.setState({ colDiscHandler: colDiscHandler$.value });
       } 
     });
+    this.subscription = totCol$.subscribe((totCol) => {
+      console.log(totCol);
+      
+      if (totCol) {
+        console.log('Lyssna och sätter antalet colummer via en store');
+        this.setState({ totCol: totCol$.value });
+      } 
+    });
   }
   createDisc(e) {
     let getTargetColRow = e.target.id;
@@ -49,8 +57,7 @@ let col7 = [];
     let getColNr = indexedLetter.shift();
     console.log(typeof getColNr);
 
-    // Col array name
-    this['col' + getColNr] = [];
+    
     console.log(this['col' + getColNr]);
     
     // Create a col dynamic name nr according the col I click in
@@ -63,11 +70,12 @@ let col7 = [];
  
     if (getColNr === getColNr) {
       this.checkCurrentPlayer();
-      this['col' + getColNr].push(getDisc);
-
-      this.setState({
-          colDiscHandler: { ...this.state.colDiscHandler, [colName]: '?'
-        }
+      // Col array name
+     this['col' + getColNr] = [];
+     console.log();
+     
+     this.setState({
+        colDiscHandler: { ...this.state.colDiscHandler, [colName]: [...this.state.colDiscHandler[colName], getDisc] }
       });
       //arrDisc = [];
     }
@@ -90,18 +98,18 @@ let col7 = [];
     }
   }
   createDiscPlace(){
-    let getPlace;
+    let getPlace = [];
+    let count = 0;
     for (let col = 1; col <= this.state.totCol; col++) {
-      getPlace = <div>{ col }</div> 
-      
+      getPlace.push( <div className={ gameGridCSS.discCell}> v { this.state.colDiscHandler['col' + col]} </div> );     
     }
-
+    return getPlace;
   }
   checkWinner() {
     
   }
   render() {
-    console.log(this.state.colDiscHandler);
+    console.log(this.state.totCol);
     return (
       <section className={ mainWindowCSS.bodyFrame }>
       <p className={  mainWindowCSS.pagesHeadLine }> Connect four</p>
@@ -114,12 +122,12 @@ let col7 = [];
          </section>
           <div className={ gameGridCSS.gameGrid }>
             <GameGrid createDisc={ this.createDisc }/>     
-            <section className={ mainWindowCSS.gameDiscPlace }>
-              {
-                this.createDiscPlace()
-              }
-            </section>
           </div>
+          <section className={ gameGridCSS.gameDiscPlace }>
+            {
+              this.createDiscPlace()
+            }
+          </section>
         <button className={ mainWindowCSS.rstBtn }>Reset Game</button>
       </section>
     </section>

@@ -1,5 +1,5 @@
 import React, { PureComponent, useState, useEffect } from 'react';
-import { updateColDiscHandler, } from './store';
+import { updateColDiscHandler, updateTotCol } from './store';
 import { gameGridCSS } from './connectFourCSS';
 import { create } from 'domain';
 let arrColContent = [];
@@ -35,7 +35,7 @@ export class GameGrid extends PureComponent {
       colDiscHandler['col' + countCol] = [];
       
       updateColDiscHandler(colDiscHandler);
-
+      updateTotCol(totCol);
       for (let countRow = 1; countRow <= totRow; countRow++) {
         // Creating one cell in each turn and give it a rowNr 
         row = <div className={ gameGridCSS.cell } key={ countRow } id={ rowInCol + 'x' + countRow } onClick={ this.props.createDisc }></div>;

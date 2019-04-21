@@ -29,7 +29,6 @@ export const mainWindowCSS = {
     'left': '10px',
     'top': '150px',
     'width': '100px',
-
   }),
   bodyFrame: css({
     'marginLeft': 'calc(50% - 275px)',
@@ -39,23 +38,6 @@ export const mainWindowCSS = {
     'border': '1px solid lightgrey',
     'width': '450px',
     'height': '396px',
-  }),
-
-  // identical CSS
-/*   inPlace: css({
-
-
-  }), */
-  gameDiscPlace: css({
-    'position': 'relative',
-    'top': '-40',
-    'left': 'calc(57% - 175px)',
-    'display': 'flex',
-    'flexDirection': 'row',
-    'justifyContent': 'spaceAround',
-    'width': '350px',
-    'height': '20px',
-    'border': '1px solid lightgrey',
   }),
 
   rstBtn: css({
@@ -86,8 +68,20 @@ export const gameGridCSS = {
     'backgroundColor': 'darkblue',
     'borderRadius': '10px',
   }),
+  gameDiscPlace: css({
+    'position': 'relative',
+    //'top': '-50px',
+    'left': 'calc(57% - 175px)',
+    'display': 'flex',
+    'flexDirection': 'row',
+    'justifyContent': 'spaceAround',
+    'width': '350px',
+    'height': '20px',
+    'border': '1px solid lightgrey',
+  }),
   discCell: css({
-    'marginLeft': '15px',
+    'marginTop': ''
+    'margin': '14.3px',
     'width': '20px',
     'zIndex': '1',
   }),
