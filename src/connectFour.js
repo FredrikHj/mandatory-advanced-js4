@@ -1,7 +1,7 @@
 import React, { PureComponent, useState, useEffect } from 'react';
 
 import { mainWindowCSS, inGameCSS, gameGridCSS } from './connectFourCSS';
-import { rowNr$, colNr$, colDiscHandlerState$ } from './store';
+import { colDiscHandler$ } from './store';
 import { GameGrid } from './gameGrid';
 import { css } from 'glamor';
 import { create } from 'domain';
@@ -21,18 +21,20 @@ let col7 = [];
   constructor(props) {
     super(props);
     this.state = {
+      colDiscHandler: [],
       currentPlayer: { value: 'player1', bC: 'green', css: {} },
     }
     this.createDisc = this.createDisc.bind(this);
+    this.createDiscPlace = this.createDiscPlace.bind(this);
     this.checkCurrentPlayer = this.checkCurrentPlayer.bind(this);
   }
   componentDidMount() {
-    this.subscription = colDiscHandlerState$.subscribe((colDiscHandler) => {
+    this.subscription = colDiscHandler$.subscribe((colDiscHandler) => {
       console.log(colDiscHandler);
       
       if (colDiscHandler) {
         console.log('Lyssna och sätter antalet colummer via en store');
-        this.setState({ colDiscHandler: colDiscHandlerState$.value });
+        this.setState({ colDiscHandler: colDiscHandler$.value });
       } 
     });
   }
@@ -58,61 +60,14 @@ let col7 = [];
     let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getTargetColRow.id } 
     style={(this.state.currentPlayer.value === 'player1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
       </div>;
-    if (getColNr === '1') {
+    if (getColNr === getColNr) {
       this.checkCurrentPlayer();
-      col1.push(getDisc);
+      arrDisc.push(getDisc);
+
       this.setState({
-          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col1
-        }
+          colDiscHandler: { ...this.state.colDiscHandler, [colName]: [arrDisc] }
       });
-    }
-    if (getColNr === '2') {
-      this.checkCurrentPlayer();
-      col2.push(getDisc);
-      this.setState({
-          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col2
-        }
-      });
-    }
-    if (getColNr === '3') {
-      this.checkCurrentPlayer();
-      col3.push(getDisc);
-      this.setState({
-          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col3
-        }
-      });
-    }
-    if (getColNr === '4') {
-      this.checkCurrentPlayer();
-      col4.push(getDisc);
-      this.setState({
-          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col4
-        }
-      });
-    }
-    if (getColNr === '5') {
-      this.checkCurrentPlayer();
-      col5.push(getDisc);
-      this.setState({
-          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col5
-        }
-      });
-    }
-    if (getColNr === '6') {
-      this.checkCurrentPlayer();
-      col6.push(getDisc);
-      this.setState({
-          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col6
-        }
-      });
-    }
-    if (getColNr === '7') {
-      this.checkCurrentPlayer();
-      col7.push(getDisc);
-      this.setState({
-          colDiscHandler: { ...this.state.colDiscHandler, [colName]: col7
-        }
-      });
+      //arrDisc = [];
     }
   }
   checkCurrentPlayer() { 
@@ -132,6 +87,14 @@ let col7 = [];
       })
     }
   }
+  createDiscPlace(){
+    let getPlace;
+    for (let col = 1; col <= this.state.totCol; col++) {
+      getPlace = <div>{ col }</div> 
+      
+    }
+
+  }
   checkWinner() {
     
   }
@@ -148,8 +111,12 @@ let col7 = [];
           <p style={(this.state.currentPlayer.value === 'player2') ? {color: 'red', fontWeight: 'bold'} : null}>Player 2</p>
          </section>
           <div className={ gameGridCSS.gameGrid }>
-            <GameGrid createDisc={ this.createDisc } colDiscHandler={ this.state.colDiscHandler }/>     
-          <section className={ mainWindowCSS.gameDiscPlace }>{ this.state.colDiscHandler }</section>
+            <GameGrid createDisc={ this.createDisc }/>     
+            <section className={ mainWindowCSS.gameDiscPlace }>
+              {
+                this.createDiscPlace()
+              }
+            </section>
           </div>
         <button className={ mainWindowCSS.rstBtn }>Reset Game</button>
       </section>
