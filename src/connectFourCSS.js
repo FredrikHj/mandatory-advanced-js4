@@ -70,17 +70,15 @@ export const gameGridCSS = {
   }),
   gameDiscPlace: css({
     'position': 'relative',
-    //'top': '-50px',
+    'top': '-48.5px',
     'left': 'calc(57% - 175px)',
     'display': 'flex',
     'flexDirection': 'row',
     'justifyContent': 'spaceAround',
     'width': '350px',
     'height': '20px',
-    'border': '1px solid lightgrey',
   }),
   discCell: css({
-    'marginTop': ''
     'margin': '14.3px',
     'width': '20px',
     'zIndex': '1',
@@ -100,7 +98,7 @@ export const inGameCSS = {
     'width': '17.5px',
     'height': '17.5px',
     'marginBottom': '-51.1px',
-    'marginLeft': '1px',
+    'marginLeft': '1.5px',
     'borderRadius': '20px',
     'zIndex': '1',
   }),

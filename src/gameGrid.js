@@ -22,7 +22,7 @@ export class GameGrid extends PureComponent {
       this.createGameGrid();
   }
   createGameGrid() {
-    let totRow = this.state.totRow;
+    let totRow = this.state.totRow; // Minimum 4 row index 0-3
     let totCol = this.state.totCol;
     let rowInCol = 1;
     let colNr = 0;
@@ -61,7 +61,6 @@ export class GameGrid extends PureComponent {
       3 - Insurt
       */
     }
-    console.log(colDiscHandler);
     arrGameGrid.push(arrCol);
     this.setState({ gameGrid: arrGameGrid });
   }
@@ -73,76 +72,3 @@ export class GameGrid extends PureComponent {
       );
   }
 }
-
-    /*<>
-      <div> 
-        <div key="1">
-          <div className={ gameGridCSS.cell } key="6" id="1x6" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="5" id="1x5" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="4" id="1x4" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="3" id="1x3" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="2" id="1x2" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="1" id="1x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col1 }</div>
-        </div>
-      </div>
-      <div
-        <div key="2">
-          <div className={ gameGridCSS.cell } key="6" id="2x6" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="5" id="2x5" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="4" id="2x4" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="3" id="2x3" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="2" id="2x2" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="1" id="2x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col2 }</div>
-        </div>
-      </div>  
-      <div>
-        <div key="3">
-          <div className={ gameGridCSS.cell } key="6" id="3x6" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="5" id="3x5" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="4" id="3x4" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="3" id="3x3" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="2" id="3x2" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="1" id="3x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col3 }</div>
-        </div>
-      </div>
-      <div> 
-        <div key="4">
-          <div className={ gameGridCSS.cell } key="6" id="4x6" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="5" id="4x5" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="4" id="4x4" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="3" id="4x3" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="2" id="4x2" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="1" id="4x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col4 }</div>
-        </div>
-      </div>
-      <div> 
-        <div key="5">
-          <div className={ gameGridCSS.cell } key="6" id="5x6" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="5" id="5x5" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="4" id="5x4" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="3" id="5x3" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="2" id="5x2" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="1" id="5x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col5 }</div>
-        </div>
-      </div>
-      <div> 
-        <div key="6">
-          <div className={ gameGridCSS.cell } key="6" id="6x6" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="5" id="6x5" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="4" id="6x4" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="3" id="6x3" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="2" id="6x2" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="1" id="6x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col6 }</div>
-        </div>
-      </div>
-      <div> 
-        <div key="7">
-          <div className={ gameGridCSS.cell } key="6" id="7x6" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="5" id="7x5" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="4" id="7x4" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="3" id="7x3" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="2" id="7x2" onClick={ this.props.createDisc }></div>
-          <div className={ gameGridCSS.cell } key="1" id="7x1" onClick={ this.props.createDisc }>{ this.props.colDiscHandler.col7 }</div>
-        </div>
-      </div>
-    </>*/

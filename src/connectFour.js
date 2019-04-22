@@ -21,53 +21,52 @@ let col7 = [];
   constructor(props) {
     super(props);
     this.state = {
+      gameStart: false,
+      currentCol: '',
+      currentColNr: 1,
       colDiscHandler: [],
-      currentPlayer: { value: 'player1', bC: 'green', css: {} },
+      lastPlayer: 'Player 1', winner: false,
+      currentPlayer: { value: 'Player 1', bC: 'green', },
     }
     this.createDisc = this.createDisc.bind(this);
     this.createDiscPlace = this.createDiscPlace.bind(this);
     this.checkCurrentPlayer = this.checkCurrentPlayer.bind(this);
+    this.checkWinner = this.checkWinner.bind(this);
+    this.checkCurrentColState =this.checkCurrentColState.bind(this);
   }
   componentDidMount() {
-    this.subscription = colDiscHandler$.subscribe((colDiscHandler) => {
-      console.log(colDiscHandler);
-      
+    this.subscription = colDiscHandler$.subscribe((colDiscHandler) => {      
       if (colDiscHandler) {
-        console.log('Lyssna och sätter antalet colummer via en store');
         this.setState({ colDiscHandler: colDiscHandler$.value });
       } 
     });
-    this.subscription = totCol$.subscribe((totCol) => {
-      console.log(totCol);
-      
+    this.subscription = totCol$.subscribe((totCol) => {      
       if (totCol) {
-        console.log('Lyssna och sätter antalet colummer via en store');
         this.setState({ totCol: totCol$.value });
       } 
     });
   }
-  createDisc(e) {
-    let getTargetColRow = e.target.id;
+  componentDidUpdate() {
+    this.checkWinner();
+  }
 
-    console.log(getTargetColRow);
-    
+  createDisc(e) {
+    let getTargetColRow = e.target.id;    
     discKey += 1;
     // Clean the id to only show the col nr      
     let indexedLetter = getTargetColRow.split('');
     let getColNr = indexedLetter.shift();
-    console.log(typeof getColNr);
-
-    
-    console.log(this['col' + getColNr]);
-    
+        
     // Create a col dynamic name nr according the col I click in
     let colName = 'col' + getColNr;
     
     // Creating the disc 
     let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getTargetColRow.id } 
-    style={(this.state.currentPlayer.value === 'player1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
+    style={(this.state.currentPlayer.value === 'Player 1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
       </div>;
- 
+    // Get last player who placed a disc
+    let getLastPlayer = this.state.currentPlayer.value;
+
     if (getColNr === getColNr) {
       this.checkCurrentPlayer();
       // Col array name
@@ -79,20 +78,84 @@ let col7 = [];
       });
       //arrDisc = [];
     }
+    
+    this.setState({
+      gameStart: true, // Give the if in the function checkWinner cleared to checking if a winner is found
+      currentCol: colName,
+      currentColNr: getColNr,
+      lastPlayer: getLastPlayer,
+    });
+  }
+  checkWinner() {
+    let getCol = 0;
+    let colRowBcRed = 0;
+    let colRowBcGreen = 0;
+    if (this.state.gameStart === true) {
+      
+
+      let getColDiscHandlerObj = this.state.colDiscHandler;
+
+
+      for (const getIntoColDiscHandler in getColDiscHandlerObj) {
+        getCol++;
+
+        let getColArr = getColDiscHandlerObj[getIntoColDiscHandler];
+
+
+
+        for (let i = 0; i < getColArr.length; i++) {
+          const getColRow = getColArr[i];
+          let colRowBc = getColRow.props.style.backgroundColor;
+
+
+
+          // Vertical check
+          if (colRowBc === 'red') {
+            console.log('fewf');
+            
+            colRowBcRed++;
+
+          }
+          console.log(getColRow.props.style.backgroundColor);
+        }
+        
+      }
+      console.log(colRowBcRed);
+      
+
+      let getCurrentCol = this.state.colDiscHandler[this.state.currentCol]
+      console.log(getCurrentCol);
+      
+
+
+console.log( this.state.currentColNr);
+
+      for (let i = 0; i < getCurrentCol.length; i++) {
+        const element = getCurrentCol[i];
+        console.log(element);
+      }
+      console.log(getColDiscHandlerObj);
+    }
+
+
+    
+  }
+  checkCurrentColState() {
+    //return this.state.colDiscHandler.col1;
   }
   checkCurrentPlayer() { 
     let currentPlayer = this.state.currentPlayer.value;
-    if (currentPlayer === 'player1') {
+    if (currentPlayer === 'Player 1') {
       this.setState({currentPlayer: {
-          ...this.state.currentPlayer,
-          value: 'player2'
+        ...this.state.currentPlayer,
+        value: 'Player 2'
         }
       })
     }
-    if (currentPlayer === 'player2') {
-          this.setState({currentPlayer: {
-          ...this.state.currentPlayer,
-          value: 'player1'
+    if (currentPlayer === 'Player 2') {
+      this.setState({currentPlayer: {
+        ...this.state.currentPlayer,
+          value: 'Player 1'
         }
       })
     }
@@ -101,32 +164,26 @@ let col7 = [];
     let getPlace = [];
     let count = 0;
     for (let col = 1; col <= this.state.totCol; col++) {
-      getPlace.push( <div className={ gameGridCSS.discCell}> v { this.state.colDiscHandler['col' + col]} </div> );     
+      getPlace.push( <div className={ gameGridCSS.discCell}>{ this.state.colDiscHandler['col' + col]} </div> );     
     }
     return getPlace;
   }
-  checkWinner() {
-    
-  }
   render() {
-    console.log(this.state.totCol);
     return (
       <section className={ mainWindowCSS.bodyFrame }>
       <p className={  mainWindowCSS.pagesHeadLine }> Connect four</p>
       <hr className={ mainWindowCSS.topLine }/>
-      <p className={  mainWindowCSS.wonSubLine }> Player ? Won</p>
+      <p className={  mainWindowCSS.wonSubLine }>{ this.state.lastPlayer + ' Won!'}</p>
       <section className={ gameGridCSS.gameGridFrame }>
         <section className={  mainWindowCSS.playerContainer }>
-          <p style={(this.state.currentPlayer.value === 'player1') ? {color: 'green', fontWeight: 'bold'} : null}>Player 1</p>
-          <p style={(this.state.currentPlayer.value === 'player2') ? {color: 'red', fontWeight: 'bold'} : null}>Player 2</p>
+          <p style={(this.state.currentPlayer.value === 'Player 1') ? {color: 'green', fontWeight: 'bold'} : null}>Player 1</p>
+          <p style={(this.state.currentPlayer.value === 'Player 2') ? {color: 'red', fontWeight: 'bold'} : null}>Player 2</p>
          </section>
           <div className={ gameGridCSS.gameGrid }>
             <GameGrid createDisc={ this.createDisc }/>     
           </div>
           <section className={ gameGridCSS.gameDiscPlace }>
-            {
-              this.createDiscPlace()
-            }
+            { this.createDiscPlace() }
           </section>
         <button className={ mainWindowCSS.rstBtn }>Reset Game</button>
       </section>
