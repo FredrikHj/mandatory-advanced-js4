@@ -1,7 +1,7 @@
 import React, { PureComponent, useState, useEffect } from 'react';
 
 import { mainWindowCSS, inGameCSS, gameGridCSS } from './connectFourCSS';
-import { colDiscHandler$, totCol$ } from './store';
+import { colDiscHandler$, totCol$, winnerState$, updateWinnerState} from './store';
 import { GameGrid } from './gameGrid';
 import { css } from 'glamor';
 import { create } from 'domain';
@@ -25,7 +25,7 @@ let col7 = [];
       currentCol: '',
       currentColNr: 1,
       colDiscHandler: [],
-      lastPlayer: 'Player 1', winner: false,
+      lastPlayer: { str: 'Player 1', winner: false, },
       currentPlayer: { value: 'Player 1', bC: 'green', },
     }
     this.createDisc = this.createDisc.bind(this);
@@ -45,11 +45,20 @@ let col7 = [];
         this.setState({ totCol: totCol$.value });
       } 
     });
+    this.subscription = winnerState$.subscribe((winnerState) => {      
+      if (winnerState) {
+        this.setState({
+          lastPlayer: {...this.state.lastPlayer, winner: true }})
+      } 
+    });
+    this.setState({
+    });  
   }
   componentDidUpdate() {
-    this.checkWinner();
+    if (!this.state.lastPlayer.winner) {
+      this.checkWinner();
+    }
   }
-
   createDisc(e) {
     let getTargetColRow = e.target.id;    
     discKey += 1;
@@ -83,62 +92,39 @@ let col7 = [];
       gameStart: true, // Give the if in the function checkWinner cleared to checking if a winner is found
       currentCol: colName,
       currentColNr: getColNr,
-      lastPlayer: getLastPlayer,
+      lastPlayer: {...this.state.lastPlayer, str: getLastPlayer, }
     });
   }
   checkWinner() {
     let getCol = 0;
     let colRowBcRed = 0;
     let colRowBcGreen = 0;
+    let colNrToInt = parseInt(this.state.currentColNr);
     if (this.state.gameStart === true) {
-      
-
       let getColDiscHandlerObj = this.state.colDiscHandler;
-
-
       for (const getIntoColDiscHandler in getColDiscHandlerObj) {
         getCol++;
-
         let getColArr = getColDiscHandlerObj[getIntoColDiscHandler];
-
-
-
         for (let i = 0; i < getColArr.length; i++) {
           const getColRow = getColArr[i];
+
           let colRowBc = getColRow.props.style.backgroundColor;
-
-
-
           // Vertical check
-          if (colRowBc === 'red') {
-            console.log('fewf');
-            
-            colRowBcRed++;
+          if (colRowBc === 'red' && getCol === colNrToInt) {
+            colRowBcRed++;/* 
+            if (colRowBcRed === 4) {
+              let setWinnerState = 2;
+              updateWinnerState(setWinnerState);
+             } */
 
+             console.log(colRowBcRed); 
           }
-          console.log(getColRow.props.style.backgroundColor);
+
         }
-        
-      }
-      console.log(colRowBcRed);
-      
-
+      }      
       let getCurrentCol = this.state.colDiscHandler[this.state.currentCol]
-      console.log(getCurrentCol);
-      
-
-
-console.log( this.state.currentColNr);
-
-      for (let i = 0; i < getCurrentCol.length; i++) {
-        const element = getCurrentCol[i];
-        console.log(element);
-      }
-      console.log(getColDiscHandlerObj);
+      colRowBcRed = 0;
     }
-
-
-    
   }
   checkCurrentColState() {
     //return this.state.colDiscHandler.col1;
@@ -173,7 +159,7 @@ console.log( this.state.currentColNr);
       <section className={ mainWindowCSS.bodyFrame }>
       <p className={  mainWindowCSS.pagesHeadLine }> Connect four</p>
       <hr className={ mainWindowCSS.topLine }/>
-      <p className={  mainWindowCSS.wonSubLine }>{ this.state.lastPlayer + ' Won!'}</p>
+      <p className={  mainWindowCSS.wonSubLine } style={(this.state.lastPlayer.winner === true) ? {display: 'block'} : {display: 'none'}}>{ this.state.lastPlayer.str + ' Won!'}</p>
       <section className={ gameGridCSS.gameGridFrame }>
         <section className={  mainWindowCSS.playerContainer }>
           <p style={(this.state.currentPlayer.value === 'Player 1') ? {color: 'green', fontWeight: 'bold'} : null}>Player 1</p>

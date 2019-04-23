@@ -55,11 +55,6 @@ export class GameGrid extends PureComponent {
       arrColContent = [];
       
       rowInCol += 1;
-      /* Step for the state working
-      1 - create
-      2 - Linking
-      3 - Insurt
-      */
     }
     arrGameGrid.push(arrCol);
     this.setState({ gameGrid: arrGameGrid });
