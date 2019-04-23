@@ -3,26 +3,42 @@ import { relative } from 'path';
 
 /* let indenticalCSS = {
   containerRegLogin:  css({
-
+    
   })
-
+  
 } */
 /* ========================= Generall ========================= */
 export const mainWindowCSS = {
+  bodyFrame: css({
+    'height': '380px',
+    'marginLeft': 'calc(50% - 275px)',
+    'marginTop': '10%',
+    'backgroundColor': 'orange',
+    'borderRadius': '10px',
+    'border': '1px solid lightgrey',
+    'width': '450px',
+  }),
   pagesHeadLine: css({
-   'textAlign': 'center',
-   'width': '100%',
-   'letterSpacing': '5px',
-   'fontWeight': 'bold',
-   'fontSize': '20px',
+    'textAlign': 'center',
+    'width': '100%',
+    'letterSpacing': '5px',
+    'fontWeight': 'bold',
+    'fontSize': '20px',
   }),
   topLine: css({
     'width': '75%',
   }),
-  wonSubLine: css({
+  winnerContainer: css({
+    'position': 'absolute',
     'textAlign': 'center',
-    'width': '100%',
+    'fontSize': '30px',
+    'width': '400px',
+    'height': '185px',
+    'zIndex': '1',
+    'lineHeight': '130px',
     'letterSpacing': '3px',
+    'backgroundColor': 'grey',
+    'boxShadow': '45px 14px 274px 261px grey',
   }),
   playerContainer: css({
     'position': 'relative',
@@ -30,20 +46,10 @@ export const mainWindowCSS = {
     'top': '150px',
     'width': '100px',
   }),
-  bodyFrame: css({
-    'marginLeft': 'calc(50% - 275px)',
-    'marginTop': '10%',
-    'backgroundColor': 'orange',
-    'borderRadius': '10px',
-    'border': '1px solid lightgrey',
-    'width': '450px',
-    'height': '396px',
-  }),
 
   rstBtn: css({
     'position': 'relative',
     'left': 'calc(50% - 50px)',
-    'top': '16px',
     'width': '100px',
   })
 }
