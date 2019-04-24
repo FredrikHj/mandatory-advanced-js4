@@ -4,6 +4,11 @@ import { colDiscHandler$, totCol$, winnerState$, updateWinnerState} from './stor
 
 import { CSSTransition } from 'react-transition-group';
 import { GameGrid } from './gameGrid';
+let countColRowBcGreenVer = 0;
+let countColRowBcRedVer = 0;
+let countColRowBcRedHori = 0;
+let countColRowBcGreenHori = 0;
+let countColRow = 0;
 let discKey = 100;
 
 class Connect4 extends PureComponent {
@@ -22,6 +27,7 @@ class Connect4 extends PureComponent {
     this.checkCurrentPlayer = this.checkCurrentPlayer.bind(this);
     this.checkWinner = this.checkWinner.bind(this);
     this.winnerCheckVertical = this.winnerCheckVertical.bind(this);
+    this.winnerCheckHorizontal = this.winnerCheckHorizontal.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
   }
   componentDidMount() {
@@ -50,18 +56,23 @@ class Connect4 extends PureComponent {
       }
     }
     createDisc(e) {
-      let getTargetColRow = e.target.id;    
+      let getTargetColRow = e.target.id;   
+      console.log(getTargetColRow);
+      
       discKey += 1;
       // Clean the id to only show the col nr      
       let indexedLetter = getTargetColRow.split('');
       let getColNr = indexedLetter.shift();
+      let getColRowNr = indexedLetter.pop();
+      console.log(getColRowNr);
       
       // Create a col dynamic name nr according the col I click in
       let colName = 'col' + getColNr;
+      console.log(getTargetColRow);
       
       // Creating the disc 
-      let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getTargetColRow.id } 
-    style={(this.state.currentPlayer.value === 'Player 1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
+      let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getColRowNr } 
+      style={(this.state.currentPlayer.value === 'Player 1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
       </div>;
     // Get last player who placed a disc
     let getLastPlayer = this.state.currentPlayer.value;
@@ -86,9 +97,7 @@ class Connect4 extends PureComponent {
   }
   checkWinner() {
     let getCol = 0;
-    let countColRowBcRed = 0;
-    let countColRowBcGreen = 0;
-    
+    let getIndexOfArrForColRow = 0;
     let presentPushColNr = parseInt(this.state.currentColNr);
     
     if (this.state.gameStart === true) {
@@ -97,47 +106,77 @@ class Connect4 extends PureComponent {
         getCol++;   
         
         let getColArr = getColDiscHandlerObj[getIntoColDiscHandler];
+        console.log(getColArr);
+        
         for (let i = 0; i < getColArr.length; i++) {
           const getColRow = getColArr[i];
+          
+          countColRow++;
+          // Get the colRowNr of the cols array for calculation of the Horizontal winner          
+          let colRowId = getColRow.props.id;  
+          console.log(colRowId);
+          
+          // Get the colRowB
           let colRowBc = getColRow.props.style.backgroundColor;         
-          let CountColRow = getColRow.props;    
           
           // Vertical check
-          //Red
-          if (colRowBc === 'red' && getCol === presentPushColNr) {
-            console.log('Disc = röd!');
+          this.winnerCheckVertical(colRowBc, getCol, presentPushColNr);         
+          
+          //console.log(getIndexOfArrForColRow);
+          //console.log(countColRow);
+          
+          //Horizontal check
+          //console.log('Color ' + colRowBc + ' har index nr ' + getIndexOfArrForColRow + ' i col ' + getCol);
+          
+          console.log(colRowId);
+          console.log(countColRow);
+
+          if (colRowBc === 'red' && getCol != presentPushColNr
+          ) {
             
-            countColRowBcRed++;
-            if (countColRowBcRed === 4) {
-              console.log('sdg');
-              
-              let fakeValueForWinerState = 1;
-              updateWinnerState(fakeValueForWinerState);
-            }
-          }
-          else countColRowBcRed = 0;
-          // Green
-          if (colRowBc === 'green' && getCol === presentPushColNr) {
-            console.log('Disc = grön!');
+            countColRowBcRedHori++;    
+            console.log(countColRowBcRedHori);
             
-            countColRowBcGreen++;
-            if (countColRowBcGreen === 4) {
-              console.log('sdg');
-              
-              let fakeValueForWinerState = 1;
-              updateWinnerState(fakeValueForWinerState);
-            }
           }
-          else countColRowBcGreen = 0;
+          else countColRowBcRedHori = 0;
+          countColRow = 0; 
         }
-        //countColRowBcRed = 0;
-      }      
+
+        //Red    
+        
+        //this.winnerCheckHorizontal();
+      }     
     }
-  }
-  winnerCheckVertical(colRowBc, getCol, colNrToInt, countColRowBcRed) {
     
   }
-  
+  winnerCheckVertical(colRowBc, getCol, presentPushColNr) {
+    //Red     
+    if (colRowBc === 'red' && getCol === presentPushColNr
+    ) {      
+      countColRowBcRedVer++;      
+      if (countColRowBcRedVer === 4) {      
+        let fakeValueForWinerState = 1;
+        updateWinnerState(fakeValueForWinerState);
+      }
+    }
+    else countColRowBcRedVer = 0;
+    
+    // Green
+    if (colRowBc === 'green' && getCol === presentPushColNr
+    ) {
+      countColRowBcGreenVer++;
+      if (countColRowBcGreenVer === 4) {
+        let fakeValueForWinerState = 1;
+        updateWinnerState(fakeValueForWinerState);
+      }
+    }
+    else countColRowBcGreenVer = 0;
+    let arrCountColRowBc = [countColRowBcRedVer];
+    return arrCountColRowBc;
+  }
+  winnerCheckHorizontal() {
+
+  }
   checkCurrentPlayer() { 
     let currentPlayer = this.state.currentPlayer.value;
     if (currentPlayer === 'Player 1') {
