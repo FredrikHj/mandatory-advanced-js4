@@ -1,20 +1,23 @@
 import {BehaviorSubject} from "rxjs";
 
-let colDiscHandler = {};
-let setWinnerState = 0;
 let totCol = 0;
-export const colDiscHandler$ = new BehaviorSubject(colDiscHandler);
+let totRow = 0;
+let setWinnerState = 0;
+let colDiscHandler = {};
+
 export const totCol$ = new BehaviorSubject(totCol);
+export const totRow$ = new BehaviorSubject(totRow);
 export const winnerState$ = new BehaviorSubject(setWinnerState);
+export const colDiscHandler$ = new BehaviorSubject(colDiscHandler);
 
 export function updateColDiscHandler(colDiscHandler) {
-   // console.log(colDiscHandler);
     colDiscHandler$.next(colDiscHandler);
 }
-
 export function updateTotCol(totCol) {
-    //console.log(totCol);
     totCol$.next(totCol);
+}
+export function updateTotRow(totRow) {
+    totRow$.next(totRow);
 }
 export function updateWinnerState(setWinnerState) {
     console.log(setWinnerState);
