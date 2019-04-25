@@ -57,19 +57,16 @@ class Connect4 extends PureComponent {
     }
     createDisc(e) {
       let getTargetColRow = e.target.id;   
-      console.log(getTargetColRow);
       
       discKey += 1;
       // Clean the id to only show the col nr      
       let indexedLetter = getTargetColRow.split('');
       let getColNr = indexedLetter.shift();
       let getColRowNr = indexedLetter.pop();
-      console.log(getColRowNr);
       
       // Create a col dynamic name nr according the col I click in
       let colName = 'col' + getColNr;
-      console.log(getTargetColRow);
-      
+
       // Creating the disc 
       let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getColRowNr } 
       style={(this.state.currentPlayer.value === 'Player 1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
@@ -81,7 +78,6 @@ class Connect4 extends PureComponent {
       this.checkCurrentPlayer();
       // Col array name
       this['col' + getColNr] = [];
-      console.log();
       
       this.setState({
         colDiscHandler: { ...this.state.colDiscHandler, [colName]: [...this.state.colDiscHandler[colName], getDisc] }
@@ -106,7 +102,6 @@ class Connect4 extends PureComponent {
         getCol++;   
         
         let getColArr = getColDiscHandlerObj[getIntoColDiscHandler];
-        console.log(getColArr);
         
         for (let i = 0; i < getColArr.length; i++) {
           const getColRow = getColArr[i];
@@ -114,32 +109,33 @@ class Connect4 extends PureComponent {
           countColRow++;
           // Get the colRowNr of the cols array for calculation of the Horizontal winner          
           let colRowId = getColRow.props.id;  
-          console.log(colRowId);
           
           // Get the colRowB
           let colRowBc = getColRow.props.style.backgroundColor;         
           
           // Vertical check
-          this.winnerCheckVertical(colRowBc, getCol, presentPushColNr);         
+          //this.winnerCheckVertical(colRowBc, getCol, presentPushColNr);         
           
-          //console.log(getIndexOfArrForColRow);
-          //console.log(countColRow);
           
           //Horizontal check
           //console.log('Color ' + colRowBc + ' har index nr ' + getIndexOfArrForColRow + ' i col ' + getCol);
-          
-          console.log(colRowId);
-          console.log(countColRow);
+                    
 
-          if (colRowBc === 'red' && getCol != presentPushColNr
+          if (colRowBc === 'red' && colRowBc != 'green' && getCol != presentPushColNr
           ) {
+            console.log('Röd adderas');
             
             countColRowBcRedHori++;    
-            console.log(countColRowBcRedHori);
-            
+            if (countColRowBcRedHori === 4) {      
+              let fakeValueForWinerState = 1;
+              updateWinnerState(fakeValueForWinerState);
+            }
           }
-          else countColRowBcRedHori = 0;
-          countColRow = 0; 
+          else if (colRowBc === 'green' && getCol === presentPushColNr) countColRowBcRedHori = 0;
+          console.log(countColRowBcRedHori);
+
+            
+          //countColRow = 0; 
         }
 
         //Red    
@@ -207,7 +203,7 @@ startNewGame() {
   this.setState({
     lastPlayer: { ...this.state.lastPlayer, winner: false }
     });
-    window.location.reload();
+    //window.location.reload();
   }
   render() {   
     return (
@@ -235,7 +231,8 @@ startNewGame() {
           <div className={ gameGridCSS.gameGrid }>
             <GameGrid createDisc={ this.createDisc }/>     
           </div>
-          <section className={ gameGridCSS.gameDiscPlace } style={(this.state.lastPlayer.winner === true) ? {display: 'none'} : null}>
+          <section className={ gameGridCSS.gameDiscPlace } //style={(this.state.lastPlayer.winner === true) ? {display: 'none'} : null}
+          >
             { this.createDiscPlace() }
           </section>
         <button className={ mainWindowCSS.rstBtn } onClick={ this.startNewGame }>Reset Game</button>

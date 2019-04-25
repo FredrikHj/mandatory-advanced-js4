@@ -30,6 +30,8 @@ export const mainWindowCSS = {
   }),
   winnerContainer: css({
     'position': 'absolute',
+    'left': '48px',
+    'top': '-60px',
     'textAlign': 'center',
     'fontSize': '30px',
     'width': '400px',
@@ -38,7 +40,7 @@ export const mainWindowCSS = {
     'lineHeight': '130px',
     'letterSpacing': '3px',
     'backgroundColor': 'grey',
-    'boxShadow': '45px 14px 274px 261px grey',
+    //'boxShadow': '45px 14px 274px 261px grey',
   }),
   playerContainer: css({
     'position': 'relative',
