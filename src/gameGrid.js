@@ -30,7 +30,7 @@ export class GameGrid extends PureComponent {
     /* Creating a col and give the names col1/2/3...............
     I am creating a couple of rows with the nr of row I need for the game, Inside the cols*/
     for (let countCol = 1; countCol <= totCol; countCol++) {   
-      // Creating and setting tthe states of col arrays            
+      // Creating and setting the states of col arrays            
       colDiscHandler['col' + countCol] = [];
       updateColDiscHandler(colDiscHandler);
       updateTotCol(totCol);
