@@ -131,7 +131,11 @@ class Connect4 extends PureComponent {
     let getIndexOfArrForColRow = 0;
     let presentPushColNr = parseInt(this.state.currentColNr);
     let colRowPoss = this.state.discPoss;
+    console.log(typeof colRowPoss);
     
+    let rowAddone = colRowPoss +1;
+    let bCred = 'red';
+    let bCGreen = 'green';
     if (this.state.gameStart === true) {
       
       for (const getRow in playGridWinnerCalc) {        
@@ -144,30 +148,31 @@ class Connect4 extends PureComponent {
           countCol++;   
           console.log(getCol);
           
-          console.log(playGridWinnerCalc[1+2].objCol[1].color);
+          console.log(colRowPoss - 1);
           
-          if (playGridWinnerCalc[1].objCol[1].color === 'green') {
+          if (playGridWinnerCalc[colRowPoss].objCol[presentPushColNr].color === bCred) {
             console.log('fresf');
-            if (playGridWinnerCalc[1].objCol[1] === playGridWinnerCalc[1 + 1].objCol[1] &&
-              playGridWinnerCalc[1].objCol[1] === playGridWinnerCalc[1 + 2].objCol[1]
-            //playGridWinnerCalc[colRowPoss].objCol[presentPushColNr] === playGridWinnerCalc[colRowPoss + 3].objCol[presentPushColNr]
+            if (playGridWinnerCalc[colRowPoss].objCol[presentPushColNr].color === bCred && playGridWinnerCalc[1+1].objCol[presentPushColNr].color === bCred 
+              && playGridWinnerCalc[colRowPoss].objCol[presentPushColNr].color === bCred && playGridWinnerCalc[1+2].objCol[presentPushColNr].color === bCred 
+              && playGridWinnerCalc[colRowPoss].objCol[presentPushColNr].color === bCred && playGridWinnerCalc[1+3].objCol[presentPushColNr].color === bCred
             ) {
               console.log('f<,u,');
-              alert('sac');
               countColRowBcRedVer++
-              /* if (countColRowBcRedVer === 4) {
+              if (countColRowBcRedVer === 4) {
                 let fakeValueForWinerState = 1;
                 updateWinnerState(fakeValueForWinerState);
-              } */
+              }
             }
           }
-          //else countColRowBcRedVer = 0;
+          if (playGridWinnerCalc[colRowPoss].objCol[presentPushColNr].color != bCred) {
+            countColRowBcRedVer = 0;
+          } 
           countCol = 0;
-          console.log(countColRowBcRedVer);
         }
         //countColRow = 0;
       }
     }
+    console.log(countColRowBcRedVer);
   }
   winnerCheckVertical(colRowBc, getCol, presentPushColNr) {
     
