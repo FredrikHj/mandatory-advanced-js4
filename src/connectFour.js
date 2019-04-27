@@ -25,7 +25,8 @@ class Connect4 extends PureComponent {
       totRow: 0,
       winnerGrid: {},
       lastPlayer: { str: 'Player 1', winner: false },
-      currentPlayer: { value: 'Player 1', bC: 'green', },
+      currentPlayer: { value: 'Player 1' },
+      discPoss: 0,
     }
     this.createDisc = this.createDisc.bind(this);
     this.checkWinner = this.checkWinner.bind(this);
@@ -66,8 +67,7 @@ class Connect4 extends PureComponent {
         playGridWinnerCalc[row] = {objCol};   
       }
     }
-    this.setState({ winnerGrid: playGridWinnerCalc })
-    console.log(playGridWinnerCalc);
+    this.setState({ winnerGrid: playGridWinnerCalc });
   }
   
   componentDidUpdate() {
@@ -87,22 +87,22 @@ class Connect4 extends PureComponent {
     let getColNr = indexedLetter.shift();
     let getColRowNr = indexedLetter.pop();
     
-    // Get the highest index of an array + 1 to get nicer calc
     let getLengtInArr = this.state.colDiscHandler['col' + getColNr].length;
-    let getLengtInArrAddOne = getLengtInArr + 1;
-    console.log(getLengtInArrAddOne);
+    let getDiscPoss = getLengtInArr + 1;
+    // Get the highest index of an array + 1 to get nicer calc
+    console.log(typeof getDiscPoss);
     
     // Create a col dynamic name nr according the col I click in
     let colName = 'col' + getColNr;
     
     // Creating the disc 
-    let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getColRowNr } 
+    let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } id={ getDiscPoss } 
     style={(this.state.currentPlayer.value === 'Player 1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
     </div>;
 
     // Fix winnerGrid, a place to later use to calc the winner line
     let getWinnerGrid = this.state.winnerGrid;
-
+    
     // Get the created color from the disc
     let getDiscBc  = getDisc.props.style.backgroundColor; 
 
@@ -123,42 +123,64 @@ class Connect4 extends PureComponent {
       this.setState({
         colDiscHandler: { ...this.state.colDiscHandler, [colName]: [...this.state.colDiscHandler[colName], getDisc] },
          //A winnergrid key is add in the setState when adding disc, beacuse the row is showing 1 more
-        winnerGrid: { ...this.state.winnerGrid, winnerGrid: { ...this.state.winnerGrid[getLengtInArrAddOne].objCol[getColNr].color = getDiscBc}}
-      });
+        winnerGrid: { ...this.state.winnerGrid, 
+          
+          //winnerGrid: { ...this.state.winnerGrid[getDiscPoss].objCol[getColNr].color = getDiscBc}},
+        [getDiscPoss]: {   ...this.state.winnerGrid[getDiscPoss].objCol[getColNr].color = getDiscBc}},
+       });
       console.log(this.state.winnerGrid);     
           
-}
-    
+    }
     this.setState({
       gameStart: true, // Give the if in the function checkWinner cleared to checking if a winner is found
       currentCol: colName,
       currentColNr: getColNr,
-      lastPlayer: {...this.state.lastPlayer, str: getLastPlayer, }
+      lastPlayer: {...this.state.lastPlayer, str: getLastPlayer, },
+      discPoss: getDiscPoss
     });
   }
   checkWinner() {
-    let getCol = 0;
+    let countCol = 0;
     let getIndexOfArrForColRow = 0;
     let presentPushColNr = parseInt(this.state.currentColNr);
+    let colRowPoss = this.state.discPoss;
     
     if (this.state.gameStart === true) {
       let getWinnerGrid = this.state.winnerGrid;
-      console.log(getWinnerGrid);
-      for (const getIntoWinnerGridsRow in getWinnerGrid) {
+      for (const getRow in getWinnerGrid) {        
         countColRow++;
-        
-        let getGridRow = getWinnerGrid[getIntoWinnerGridsRow].objCol;
-        console.log(getGridRow[1]);
-        
+        console.log(typeof countColRow);
+        console.log(typeof getRow);
+        let getGridRow = getWinnerGrid[getRow].objCol;       
 
-        for (const getGridCol in getGridRow) {
+        for (const getCol in getGridRow) {    
+          countCol++;
+          
+          let getRowColBc = getWinnerGrid[this.state.discPoss].objCol[presentPushColNr].color;         
+          
+          let getColNr = getGridRow[getCol];
 
-          console.log(getGridRow[getGridCol]);
-
-
-        
-        }
-        let getGridCol = getWinnerGrid[getIntoWinnerGridsRow].objCol;
+          console.log(getWinnerGrid[countColRow].objCol[countCol]);
+          /*if (getWinnerGrid[countColRow].objCol[countCol]
+            ) {
+            //if (getWinnerGrid[countColRow].objCol[countCol] === getWinnerGrid[countColRow + 1].objCol[countCol]
+              //getWinnerGrid[countColRow].objCol[getCol] === getWinnerGrid[colRowPoss + 2].objCol[getCol]
+              //getWinnerGrid[colRowPoss].objCol[presentPushColNr] === getWinnerGrid[colRowPoss + 3].objCol[presentPushColNr]
+            //  ) {
+               console.log('fresf');
+               
+                countColRowBcRedVer++
+                if (countColRowBcRedVer === 4) {
+                  let fakeValueForWinerState = 1;
+                  updateWinnerState(fakeValueForWinerState);
+                }
+            // }
+              else countColRowBcRedVer = 0;
+          }*/
+      }
+          countCol = 0;
+          let getCol = getWinnerGrid[getRow].objCol;
+          console.log(countColRowBcRedVer);
         
       }
      
@@ -289,7 +311,7 @@ startNewGame() {
   //window.location.reload();
 }
 render() {
-  console.log(this.state.winnerGrid);
+  console.log(this.state);
   
   return (
     <section className={ mainWindowCSS.bodyFrame }>
