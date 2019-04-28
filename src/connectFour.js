@@ -10,7 +10,6 @@ let countColRowBcRedHori = 0; */
 let countColRowBcRedVer = 0;
 let playGridWinnerCalc = {};
 //let lastPushrdColNr = 0;
-let countColRow = 0;
 let discKey = 100;
 
 class Connect4 extends PureComponent {
@@ -21,12 +20,14 @@ class Connect4 extends PureComponent {
       currentColNr: 1,
       gameStart: false,
       colDiscHandler: [],
+      gameBoard: [],
       totCol: 0,
       totRow: 0,
       lastPlayer: { str: 'Player 1', winner: false },
-      currentPlayer: { value: 'Player 1' },
-      discPoss: 0,
+      currentPlayer: { value: 'Player 1', nr: 1 },
+      //discPoss: 0,
     }
+    this.checkVertical = this.checkVertical.bind(this);
     this.createDisc = this.createDisc.bind(this);
     this.checkWinner = this.checkWinner.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
@@ -37,7 +38,6 @@ class Connect4 extends PureComponent {
     this.createPlayGridWinnerObj = this.createPlayGridWinnerObj.bind(this) ;
   }
   componentDidMount() { 
-    console.log('efc');
     this.subscription = colDiscHandler$.subscribe((colDiscHandler) => {      
       if (colDiscHandler) {
         this.setState({ colDiscHandler: colDiscHandler$.value });
@@ -58,15 +58,16 @@ class Connect4 extends PureComponent {
         this.setState({ lastPlayer: {...this.state.lastPlayer, winner: true }});
       } 
     });
-    
-    //createPlayGridWinnerObj
-    for (let row = 1; row <= totRow$.value; row++) {      
-      let objCol = {};
-      for (let col = 1; col <= totCol$.value; col++) {
-        objCol[col] = {color: ''};
-        playGridWinnerCalc[row] = {objCol};   
+
+       //Create a gameBoard for the calculation of the winner
+      let gameBoard = [];
+      for (let r = 0; r <= totRow$.value; r++) {
+        let row = [];
+        for (let c = 0; c < totCol$.value; c++) { row.push(null) }
+        gameBoard.push(row);
       }
-    }
+      this.setState({gameBoard});
+   
   }
   
   componentDidUpdate() {
@@ -85,29 +86,38 @@ class Connect4 extends PureComponent {
     // Clean the id to only show the col nr      
     let indexedLetter = getTargetColRow.split('');
     let getColNr = indexedLetter.shift();
+
+    // Get row nr, hande with a error mess if wrong cell is pushed not implement yet!!!
     let getColRowNr = indexedLetter.pop();
-  
+    
     // Get last player who placed a disc
     let getLastPlayer = this.state.currentPlayer.value;
-
+    
     let getLengtInArr = this.state.colDiscHandler['col' + getColNr].length;
-    let getDiscPoss = getLengtInArr + 1;
+    let getDiscRowPoss = getLengtInArr;
+    console.log(getDiscRowPoss);
+    
+    
     // Get the highest index of an array + 1 to get nicer calc
     
     // Create a col dynamic name nr according the col I click in
     let colName = 'col' + getColNr;
     
     // Creating the disc 
-    let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc }// id={ getDiscPoss } 
+    let getDisc = <div key={ discKey } className={ inGameCSS.generallPlayerDisc } //id={ getDiscRowPoss } 
     style={(this.state.currentPlayer.value === 'Player 1') ? {backgroundColor: 'green'} : {backgroundColor: 'red'}}>
     </div>;
-    
+
+    // Get player nr 1 or 2    
+    let currentPlayerNr = this.state.currentPlayer.nr;
+    console.log(currentPlayerNr);
     
     /* Get the created color from the disc
     insurt the color str in the correct place at object which needing for calculation of the winner */
     let getDiscBc  = getDisc.props.style.backgroundColor; 
-    playGridWinnerCalc[getDiscPoss].objCol[getColNr].color = getDiscBc;
 
+   // playGridWinnerCalc[getDiscRowPoss].objCol[getColNr].color = getDiscBc;
+    
     if (getColNr === getColNr) {
       this.checkCurrentPlayer();
       // Col array name
@@ -115,64 +125,57 @@ class Connect4 extends PureComponent {
       
       this.setState({
         colDiscHandler: { ...this.state.colDiscHandler, [colName]: [...this.state.colDiscHandler[colName], getDisc] },
-      });
+        gameBoard: { ...this.state.gameBoard, ...this.state.gameBoard[getColRowNr - 1 ][getColNr] = currentPlayerNr},
+/* ===================== skumt med -1, ovan diskutera det!
+Hur fixa så man kan trycka var som i col? Tryck i rätt cel ger rad nr enlight e.target i creatDisc funktionen! */
+      })
     }
     this.setState({
       gameStart: true, // Give the if in the function checkWinner cleared to checking if a winner is found
       currentCol: colName,
       currentColNr: getColNr,
       lastPlayer: {...this.state.lastPlayer, str: getLastPlayer, },
-      discPoss: getDiscPoss
+      //discPoss: getDiscRowColPoss
     });
   }
-
+  
   checkWinner() {
-    let countCol = 0;
-    let getIndexOfArrForColRow = 0;
-    let presentPushColNr = parseInt(this.state.currentColNr);
-    let colRowPoss = this.state.discPoss;
-    console.log(typeof colRowPoss);
-    
-    let rowAddone = colRowPoss +1;
-    let bCred = 'red';
-    let bCGreen = 'green';
-    if (this.state.gameStart === true) {
-      
-      for (const getRow in playGridWinnerCalc) {        
-        let getGridRow = playGridWinnerCalc[getRow];       
-        
-        countColRow++;
+    this.checkVertical();
 
-        for (const getCol in getGridRow) {    
-          let getGridCol = getCol[getRow];
-          countCol++;   
-          console.log(getCol);
+    //if (this.state.gameStart === true) { 
+    /* let getColObject = this.state.colDiscHandler;
+      for (let getColArr in getColObject) {
+        let getIntoColArr = getColObject[getColArr];      
+        countCol++;
+        for (const getColArr of getIntoColArr) {
+          console.log(getIntoColArr);
           
-          console.log(colRowPoss - 1);
+          let catchRow = getColArr.props;
           
-          if (playGridWinnerCalc[colRowPoss].objCol[presentPushColNr].color === bCred) {
-            console.log('fresf');
-            if (playGridWinnerCalc[colRowPoss].objCol[presentPushColNr].color === bCred && playGridWinnerCalc[1+1].objCol[presentPushColNr].color === bCred 
-              && playGridWinnerCalc[colRowPoss].objCol[presentPushColNr].color === bCred && playGridWinnerCalc[1+2].objCol[presentPushColNr].color === bCred 
-              && playGridWinnerCalc[colRowPoss].objCol[presentPushColNr].color === bCred && playGridWinnerCalc[1+3].objCol[presentPushColNr].color === bCred
-            ) {
-              console.log('f<,u,');
-              countColRowBcRedVer++
-              if (countColRowBcRedVer === 4) {
-                let fakeValueForWinerState = 1;
-                updateWinnerState(fakeValueForWinerState);
-              }
-            }
-          }
-          if (playGridWinnerCalc[colRowPoss].objCol[presentPushColNr].color != bCred) {
-            countColRowBcRedVer = 0;
-          } 
-          countCol = 0;
+          let getColDiscPoss = catchRow.id;
+          getColDiscBc = catchRow.style.backgroundColor;
         }
-        //countColRow = 0;
+      }
+    } */
+  }
+  checkVertical() {
+    let gameBoard = this.state.gameBoard;
+    // Check only if row is 3 or greater
+    for (let r = 3; r < 6; r++) {
+      for (let c = 0; c < 7; c++) {
+        if (gameBoard[r][c]) {
+          if (gameBoard[r][c] === gameBoard[r - 1][c] &&
+            gameBoard[r][c] === gameBoard[r - 2][c] &&
+            gameBoard[r][c] === gameBoard[r - 3][c]) {
+            let fakeValueForWinerState = 1;
+            updateWinnerState(fakeValueForWinerState);
+              
+            return gameBoard[r][c];    
+          }
+        }
       }
     }
-    console.log(countColRowBcRedVer);
+
   }
   winnerCheckVertical(colRowBc, getCol, presentPushColNr) {
     
@@ -185,14 +188,16 @@ class Connect4 extends PureComponent {
     if (currentPlayer === 'Player 1') {
       this.setState({currentPlayer: {
         ...this.state.currentPlayer,
-        value: 'Player 2'
+        value: 'Player 2',
+        nr: 2
         }
       })
     }
     if (currentPlayer === 'Player 2') {
       this.setState({currentPlayer: {
         ...this.state.currentPlayer,
-        value: 'Player 1'
+        value: 'Player 1',
+        nr: 1,
       }
     })
   }
@@ -200,7 +205,7 @@ class Connect4 extends PureComponent {
 createDiscPlace(){
   let getPlace = [];
   let count = 0;
-  for (let col = 1; col <= this.state.totCol; col++) {
+  for (let col = 0; col < this.state.totCol; col++) {
     count++;
     getPlace.push( <div key={ count } className={ gameGridCSS.discCell}>{ this.state.colDiscHandler['col' + col]} </div> );     
   }
@@ -213,7 +218,7 @@ startNewGame() {
   window.location.reload();
 }
 render() {
-  console.log(playGridWinnerCalc);
+  console.log(this.state);
   
   return (
     <section className={ mainWindowCSS.bodyFrame }>
