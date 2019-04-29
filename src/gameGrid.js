@@ -12,12 +12,10 @@ export class GameGrid extends PureComponent {
       totRow: 6,
       totCol: 7,
       gameGrid: [],
-      
     }
     this.createGameGrid = this.createGameGrid.bind(this);
   }
   componentDidMount() {
-    
     this.createGameGrid();
   }
   createGameGrid() {
@@ -38,12 +36,11 @@ export class GameGrid extends PureComponent {
       for (let countRow = 1; countRow <= totRow; countRow++) {
         rowKey++;
         // Creating one cell in each turn and give it a rowNr start by 0        
-        row = <div className={ gameGridCSS.cell } key={ rowKey } id={ rowInCol + 'x' + countRow } onClick={ this.props.createDisc }></div>;
+        row = <div className={ gameGridCSS.emtyCell } key={ rowKey } id={ rowInCol + 'x' + countRow } onClick={ this.props.createDisc }></div>;
         arrColContent.push(row);
         
         // Add the rows in a arrCol after the couple of rows needed for a single col
         if (countRow === totRow) {
-          //countRow += 1;
           colNr += 1;
           
           let gameCol = <div key={ colNr } id={ 'col' + rowInCol }>{ arrColContent.reverse() }</div>;

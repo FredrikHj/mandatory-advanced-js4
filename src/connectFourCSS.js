@@ -91,7 +91,7 @@ export const gameGridCSS = {
     'width': '20px',
     'zIndex': '1',
   }),
-  cell: css({
+  emtyCell: css({
     'position': 'relative',
     'margin': '14.3px',
     'width': '20px',
