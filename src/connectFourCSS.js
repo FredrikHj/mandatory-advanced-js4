@@ -10,13 +10,13 @@ import { relative } from 'path';
 /* ========================= Generall ========================= */
 export const mainWindowCSS = {
   bodyFrame: css({
-    'height': '380px',
+    'height': '480px',
     'marginLeft': 'calc(50% - 275px)',
     'marginTop': '10%',
     'backgroundColor': 'orange',
     'borderRadius': '10px',
     'border': '1px solid lightgrey',
-    'width': '450px',
+    'width': '500px',
   }),
   pagesHeadLine: css({
     'textAlign': 'center',
@@ -30,8 +30,8 @@ export const mainWindowCSS = {
   }),
   winnerContainer: css({
     'position': 'absolute',
-    'left': '48px',
-    'top': '-60px',
+    'left': 'calc(50% - 200px)',
+    'top': 'calc(50% - 180px)',
     'textAlign': 'center',
     'fontSize': '30px',
     'width': '400px',
@@ -40,7 +40,7 @@ export const mainWindowCSS = {
     'lineHeight': '130px',
     'letterSpacing': '3px',
     'backgroundColor': 'grey',
-    //'boxShadow': '45px 14px 274px 261px grey',
+    'boxShadow': '45px 14px 145px 261px grey',
   }),
   playerContainer: css({
     'position': 'relative',
@@ -53,13 +53,18 @@ export const mainWindowCSS = {
     'position': 'relative',
     'left': 'calc(50% - 50px)',
     'width': '100px',
+    'top': '20px',
+  }),
+  draw: css({
+    'position': 'relative',
+    'left': '325px',
+    'width': '135px',
+    'top': '2px',
+    'color': 'red',
+    'fontWeight': 'bold',
   })
 }
   
-/* ========================= Header ========================= */
-/* export const headerCSS = {  
-
-} */
 /* ========================= GameGrid ========================= */
 export const gameGridCSS = {
   gameGridFrame: css({
@@ -68,10 +73,7 @@ export const gameGridCSS = {
   gameGrid: css({
     'position': 'relative',
     'left': 'calc(57% - 175px)',
-    'display': 'flex',
-    'flexDirection': 'row',
-    'justifyContent': 'spaceAround',
-    'width': '350px',
+    'width': '370px',
     'border': '1px solid lightgrey',
     'backgroundColor': 'darkblue',
     'borderRadius': '10px',
@@ -91,23 +93,40 @@ export const gameGridCSS = {
     'width': '20px',
     'zIndex': '1',
   }),
-  emtyCell: css({
+  playerCell: css({
+    'display': 'flex',
+    'flexDirection': 'row',
+    'justifyContent': 'center',
+    'alignItems': 'center',
+    'cursor': 'PointerEvent',
     'position': 'relative',
     'margin': '14.3px',
     'width': '20px',
     'height': '20px',
     'borderRadius': '20px', 
     'backgroundColor': 'white',
+    'paddingTop': '2px',
   }),
 }
 /* ========================= Gamecell ========================= */
 export const inGameCSS = {
-  generallPlayerDisc: css({
+  player0CSS: css({
+    'backgroundColor': 'white',
+  }),
+  player1CSS: css({
     'width': '17.5px',
     'height': '17.5px',
-    'marginBottom': '-51.1px',
-    'marginLeft': '1.5px',
+    'marginLeft': 'calc(50% - 10px)',
+    'marginTop': 'calc(50% - 12px)',
     'borderRadius': '20px',
-    'zIndex': '1',
+    'backgroundColor': 'green',
+  }),
+  player2CSS: css({
+    'width': '17.5px',
+    'height': '17.5px',
+    'marginLeft': 'calc(50% - 10px)',
+    'marginTop': 'calc(50% - 12px)',
+    'borderRadius': '20px',
+    'backgroundColor': 'red',
   }),
 }
