@@ -63,7 +63,7 @@ class Connect4 extends PureComponent {
         // Varför fungerar detta inte?
         console.log(gameBoard[r][c] );
         turnsCheckCol++;
-        if (gameBoard[r][c]  === null && turnsCheckCol  > this.state.totRow) {
+        if (gameBoard[r][c]  === null && r  > this.state.totRow) {
           return;          
         }
         // ================
