@@ -53,27 +53,20 @@ class Connect4 extends PureComponent {
     let getTargetCol = e.target.id;
     let c = getTargetCol;
     
-    let turnsCheckCol = -1; // For the is the col filled?
+  
     for (let r = 5; r >= 0; r--) {
-      console.log('Rad ' + r + ' i ' + c);
-      turnsCheckCol++;
-      
+      console.log('Rad ' + r + ' i ' + c);      
       if (!gameBoard[r][c]) {
-        
-        // Varför fungerar detta inte?
-        console.log(gameBoard[r][c] );
-        turnsCheckCol++;
-        if (gameBoard[r][c]  === null && r  > this.state.totRow) {
-          return;          
+        // Check a full col
+        if (gameBoard[0][c] === undefined) {
+          return;
         }
-        // ================
         
         gameBoard[r][c] = this.state.currentPlayer.value;
         break;
       }
-      console.log(turnsCheckCol);
-      
     }
+    console.log(gameBoard[0][c]);
     // Check currentPlayer and change to the other player 
     this.changeCurrentPlayer();
     
